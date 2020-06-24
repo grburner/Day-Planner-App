@@ -10,8 +10,10 @@ $(document).ready(function() {
 //          if ( moment().isBefore(moment($(this).data("timeSlot"))._i, "HH:mm") ) {
             if ( moment().isBefore(currentDate + ' ' + $(this).data("timeSlot")) ) {
                 console.log('isbefore ' + $(this).data("timeSlot"))
+                $(this).addClass("future")
             } else {
                 console.log('isafter ' + $(this).data("timeSlot"))
+                $(this).addClass("past")
             };
         });  
     });
