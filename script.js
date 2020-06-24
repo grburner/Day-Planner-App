@@ -23,15 +23,14 @@ function setTaskValues() {
     // $.each(localStorage, function(key, value) {
     // }); ******* use each to get this done *********
     for (var i = 0; i < localStorage.length; i++) {
-        //$(localStorage.key(i)).each(function() {
-            console.log('local storage key')
-            console.log(localStorage.getItem(localStorage.key(i)));
+        var displayKey = localStorage.getItem(localStorage.key(i))
+
     };
 };
 
 function saveUserInput() {
-    var savedInput = $(this).siblings(".input-field").text()
-    var savedTimeSlot = $(this).siblings(".hour").text()
+    var savedInput = $(this).siblings(".input-field").val()
+    var savedTimeSlot = $(this).parent().data("timeSlot")
     localStorage.setItem(savedTimeSlot, savedInput)
     setTaskValues()
 };
