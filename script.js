@@ -11,12 +11,18 @@
 
 // set the date/time & time block formatting on document.ready
 $(document).ready(function() {
-    setTimeblockFormatting()
+    //setTimeblockFormatting()
     setCurrentTime()
 });
 
-// updates the date and time function every second
-setInterval(setTimeblockFormatting, 1000)
+// updates time block formatting at minute 0 of every hour
+setInterval(function() {
+    if ( moment().minute() === 0 ) {
+        setTimeblockFormatting()
+    };
+}, 60000)
+
+// updates clock and date function every second
 setInterval(setCurrentTime, 1000)
 
 // gets the current moment for day and time
@@ -27,10 +33,12 @@ function setCurrentTime() {
 
 // updates the time block formatting by comparing time block's data attribute and comparing it to past, present, or future and setting the class for that formatting
 function setTimeblockFormatting() {
+    console.log('TB Formatting')
     setTaskValues()
     $("#timeSlotContainer").children().each(function() {
         var thisData = parseInt($(this).data('timeSlot').split(":")[0]);
-        const thisMoment = moment().hours()
+        var thisMoment = moment().hours()
+        console.log(thisMoment)
         if ( thisData < thisMoment ) {
             $(this).children(".input-field").addClass("past")
         } else if ( thisData === thisMoment ) {
