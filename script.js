@@ -33,12 +33,10 @@ function setCurrentTime() {
 
 // updates the time block formatting by comparing time block's data attribute and comparing it to past, present, or future and setting the class for that formatting
 function setTimeblockFormatting() {
-    console.log('TB Formatting')
     setTaskValues()
     $("#timeSlotContainer").children().each(function() {
         var thisData = parseInt($(this).data('timeSlot').split(":")[0]);
         var thisMoment = moment().hours()
-        console.log(thisMoment)
         if ( thisData < thisMoment ) {
             $(this).children(".input-field").addClass("past")
         } else if ( thisData === thisMoment ) {
