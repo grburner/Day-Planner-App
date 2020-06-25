@@ -1,25 +1,31 @@
 var currentTime = moment().format('LT')
 var currentDate = moment().format('YYYY-MM-DD')
-
-//on load generate new divs
-    // pull saved info from local storage
+var time = moment.duration("01:00", 'HH');
+testMoment = moment('10:10', 'HH:mm')
 
 // divs are generated run a setTimeout loop that constantly checks the time and updates the grid color
 $(document).ready(function() {
     setTaskValues()
     $("#timeSlotContainer").children().each(function() {
-            if ( moment().isBefore(currentDate + ' ' + $(this).data("timeSlot")) ) {
-                console.log('isbefore ' + $(this).data("timeSlot"))
-                $(this).addClass("future")
-            } else {
-                console.log('isafter ' + $(this).data("timeSlot"))
-                $(this).addClass("past")
-            };
-        });  
-    });
+        var thisData = $(this).data("timeSlot")
+        var thisMoment = moment(thisData, 'HH:mm')
+        console.log(thisMoment._d)
+        //returns moment object
+        var subtractMoment = thisMoment.clone().subtract(time)
+        console.log(subtractMoment._d)
+        //returns moment object with _d subtracted
+        if ( testMoment.isBefore(currentDate + ' ' + thisData) ) {
+            $(this).addClass("future")
+        } else if ( testMoment.isBetween(currentDate + ' ' + thisData, currentDate + ' ' + subtractMoment)) {
+            $(this).addClass("present")
+        } else {
+            $(this).addClass("past")
+            // add in future block
+        };
+    });  
+});
 
 function setTaskValues() {
-    console.log('into setTaskValues')
     // $.each(localStorage, function(key, value) {
     // }); ******* use each to get this done *********
     for ( var i = 0; i < localStorage.length; i++ ) {
@@ -29,11 +35,10 @@ function setTaskValues() {
     };
 };
 
-function compareStorage(key, eventVal) {
+function compareStorage(displayKey, displayValue) {
     $(".time-slot").each(function() {
-        console.log('timeslot ' + $(this).data("timeSlot") + ' key: ' + key)
-        if ( $(this).data("timeSlot") === key) {
-            $(this).children(".input-field").val(eventVal)
+        if ( $(this).data("timeSlot") === displayKey) {
+            $(this).children(".input-field").val(displayValue)
         };
     }
 )};
@@ -44,6 +49,5 @@ function saveUserInput() {
     localStorage.setItem(savedTimeSlot, savedInput)
     setTaskValues()
 };
-// build input function to take user input and save it to localStorage
+
 $(document).on("click", ".save-btn", saveUserInput)
-    // build save button functionality
