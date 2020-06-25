@@ -11,7 +11,7 @@
 
 // set the date/time & time block formatting on document.ready
 $(document).ready(function() {
-    //setTimeblockFormatting()
+    setTimeblockFormatting()
     setCurrentTime()
 });
 
