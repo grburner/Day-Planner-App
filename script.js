@@ -1,33 +1,47 @@
-var currentTime = moment().format('LT')
+//var currentTime = moment().format('LT')
 var currentDate = moment().format('YYYY-MM-DD')
 //variable passed into the .subtract method to decrement by an hour
 var time = moment.duration("01:00", 'HH');
 //test variable to test outside of 9-5 hours
-var testMoment = moment('10:10', 'HH:mm')
+var testMoment = moment('10:59', 'HH:mm')
+
+// ---> TO DO: add the current date in the header
+// ---> TO DO: clean up formatting 
+//      -> add in disk button for the save button and format to blue
+
+// ---> EXTRAS TO DO:
+//      -> break up the task row into blocks depending on how many tasks are in that time slot
+//      -> make functionality to mark a task complete and move it to a completed tasks list
+//      -> set up the header like my current homepage
 
 //runs setTaskValues to reset the displayed taks
 // -> loops through each time slot to determine if the time slot is before, during, or after the current time, then sets formatting
 // ---> TO DO: wrap in a setTimeout function to run the loop every minute to dynamically update the formatting
+
 $(document).ready(function() {
+//     setInterval(setTimeblockFormatting, 1000)
+});
+setTimeblockFormatting()
+//
+function setTimeblockFormatting() {
     setTaskValues()
     $("#timeSlotContainer").children().each(function() {
         var thisData = $(this).data("timeSlot")
         var thisMoment = moment(thisData, 'HH:mm')
-        console.log(thisMoment._d)
-        //returns moment object
         var subtractMoment = thisMoment.clone().subtract(time)
-        console.log(subtractMoment._d)
-        //returns moment object with _d subtracted
-        if ( testMoment.isBefore(currentDate + ' ' + thisData) ) {
-            $(this).addClass("future")
-        } else if ( testMoment.isBetween(currentDate + ' ' + thisData, currentDate + ' ' + subtractMoment)) {
-            $(this).addClass("present")
+        console.log(Boolean(moment().isAfter(currentDate + ' ' + thisData)))
+        console.log(Boolean(moment().isBefore(currentDate + ' ' + subtractMoment)))
+        if ( moment().isBefore(currentDate + ' ' + thisData) ) {
+            $(this).children(".input-field").addClass("future")
+        //} else if ( moment().isBetween(currentDate + ' ' + thisData, currentDate + ' ' + subtractMoment)) {
+        } else if ( moment().isAfter(currentDate + ' ' + thisData) && moment().isBefore(currentDate + ' ' + subtractMoment) ) {
+            $(this).children(".input-field").addClass("present")
         } else {
-            $(this).addClass("past")
+            $(this).children(".input-field").addClass("past")
             // add in future block
         };
-    });  
-});
+    }); 
+};
 
 //for each k/v pair in localstorage save the key and value to a variable then pass each into the compareStorage() function to determine which time slot to add them to
 function setTaskValues() {
