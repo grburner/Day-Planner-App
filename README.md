@@ -7,3 +7,6 @@ Day planner: time slots that dynamically update formatting based on time of day.
 //      -> break up the task row into blocks depending on how many tasks are in that time slot
 //      -> make functionality to mark a task complete and move it to a completed tasks list
 //      -> set up the header like my current homepage
+
+Link to deployed Repo:
+// https://grburner.github.io/week5_hw/
